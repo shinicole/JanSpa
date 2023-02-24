@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const router = new Navigo("/");
-
+console.log("hello")
 function render(state = store.Home) {
   document.querySelector("#root").innerHTML = `
   ${Header(state)}
