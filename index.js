@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const router = new Navigo("/");
-console.log("hello")
+
 function render(state = store.Home) {
   document.querySelector("#root").innerHTML = `
   ${Header(state)}
@@ -29,15 +29,15 @@ function afterRender() {
 
 router.hooks({
   before: (done, params) => {
-    const page =
-      params && params.hasOwnProperty("page")
-        ? capitalize(params.page)
+    const view =
+      params && params.data && params.data.view
+        ? capitalize(params.data.view)
         : "Home";
     // Add a switch case statement to handle multiple routes
-    switch (page) {
+    switch (view) {
       case "Home":
         axios
-          .get(`${process.env.PIZZA_PLACE_API_URL}` }
+          .get(
             // Replace the key provided here with your own key from openweathermap
             `https://api.openweathermap.org/data/2.5/weather?q=st%20louis&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}`
           )
@@ -69,6 +69,7 @@ router.hooks({
           .get(`${process.env.PIZZA_PLACE_API_URL}/pizzas`)
           .then(response => {
             // Storing retrieved data in state
+
             store.Pizza.pizzas = response.data;
             done();
           })
